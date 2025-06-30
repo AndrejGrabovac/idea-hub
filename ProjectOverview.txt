@@ -1,0 +1,43 @@
+﻿Aplikacija koja će služiti za interne potrebe nekog poduzeća, i to za davanje prijedloga za unaprjeđenje proizvoda.
+Dakle, zaposlenici poduzeća se logiraju u aplikaciju. Tako imaju popis proizvoda i imaju mogućnost samo da daju novi prijedlog za neki proizvod.
+Ne vide ničije tuđe prijedloge, nego samo svoje stare i pored njih status.
+
+Moguća su 4 statusa, a postoji mogućnost da će se u budućnosti trebati proširiti sa još statusa. Trenutno mogući stati su:
+- ODBIJENO
+- NA RAZMATRANJU
+- NA ČEKANJU
+- PRIHVAĆENO
+
+Kada se radi novi prijedlog odaberemo na koji proizvod se odnosi i napišemo tekst prijedloga.
+Nakon toga se prijedlog spremi.
+Novi prijedlog defaultno dobiva status NA RAZMATRANJU.
+Nakon toga statuse može mijenjati samo administrator.
+
+Aplikacija treba imati 2 predefinirane korisničke role:
+
+1. Administrator – to je rola koja treba imati prava na sve u aplikaciji
+2. Korisnik – rola koja ima pravo samo na davanje prijedloga (ovo gore opisano)
+
+Administrator pored davanja prijedloga vidi sve prijedloge svih zaposlenika.
+
+I vidi još 2 dodatna šifrarnika koja trebaju biti u aplikaciji, a to su:
+- Korisnici (definiraju se korisnici aplikacije, njihovi korisnički podatci i rola kojoj pripadaju)
+- Proizvodi (lista proizvoda)
+
+I treba biti jedan izvještaj na kojem se vide svi pristigli prijedlozi sa svojim statusima i korisnicima koji su ih dali.
+Na tom izvještaju treba biti moguće filtriranje po datumu prijedloga, korisniku, proizvodu i statusu.
+
+Razviti sve u Microsoft tehnologiji:
+MS SQL, WinForms, .NET Core
+
+Dati prijedlog imena takve aplikacije.
+
+Napomene za izvršenje zadatka:
+
+Ne trebaš raditi bazu podataka i sukladno tome statuse, korisnike i proizvode možeš hardcodirati u aplikaciju.
+Prijedloge također nećeš spremati u bazu nego samo držati u memoriji
+Prezentaciju (frontend) napravi prema vlastitom nahođenju i kako misliš da je smisleno u kontekstu cijele aplikacije
+Ako zapneš i nešto ti je potrebno pojasniti u vezi zadatka, slobodno kontaktiraj putem mail-a
+Zadatak možeš uploadati na vlastiti git hub i poslati link da se pripremimo za sastanak
+Kada budeš pri kraju sa zadatkom, javi se da definiramo sastanak za prezentaciju zadatka.
+Također ako možeš javiti okvirno kada bi mogao završiti zadatak po vlastitoj procjeni i obvezama.

@@ -46,12 +46,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\SuggestionStatus.cs" />
+    <Compile Include="Enums\UserRole.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Forms\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\Suggestion.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Forms\LoginForm.resx">
@@ -82,17 +88,19 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Documentation\TaskOverview.txt" />
+    <Content Include="ProjectOverview.txt" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
     <Folder Include="DTOs\" />
-    <Folder Include="Enums\" />
-    <Folder Include="Extensions\" />
     <Folder Include="Forms\Admin\" />
     <Folder Include="Forms\User\" />
-    <Folder Include="Models\" />
+    <Folder Include="Helpers\" />
+    <Folder Include="Presenters\Admin\" />
+    <Folder Include="Presenters\Base\" />
+    <Folder Include="Presenters\User\" />
     <Folder Include="Services\Interfaces\" />
-    <Folder Include="Utils\" />
+    <Folder Include="View\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
