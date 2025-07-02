@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IdeaHub.View.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,16 +11,65 @@ using System.Windows.Forms;
 
 namespace IdeaHub
 {
-    public partial class LoginForm : Form
+    public partial class LoginForm : Form, ILoginView
     {
+        public event EventHandler LoginAttempted;
+        public event EventHandler LoginSuccess;
+        public Form LoginFormInstance => this;
+
+
         public LoginForm()
         {
             InitializeComponent();
+
+            this.btnLogin.Click += (sender, e) => LoginAttempted?.Invoke(sender, e);
+        }
+
+        public string Username
+        {
+            get => txtUsername.Text;
+            set => txtUsername.Text = value;
+        }
+        public string Password
+        {
+            get => txtPassword.Text;
+            set => txtPassword.Text = value;
         }
 
         private void LoginForm_Load(object sender, EventArgs e)
         {
 
+        }
+
+        public void ShowMessage(string message)
+        {
+            lblMessage.Text = message;
+            lblMessage.ForeColor = System.Drawing.Color.Green;
+            lblMessage.Visible = true;
+        }
+
+        public void ShowError(string errorMessage)
+        {
+            lblMessage.Text = errorMessage;
+            lblMessage.ForeColor = System.Drawing.Color.Red;
+            lblMessage.Visible = true;
+        }
+
+        public void ClearFields()
+        {
+            txtUsername.Clear();
+            txtPassword.Clear();
+            txtUsername.Focus();
+        }
+
+        public void CloseView()
+        {
+            this.Close();
+        }
+
+        public void LoginSuccessful()
+        {
+            LoginSuccess?.Invoke(this, EventArgs.Empty);
         }
     }
 }
