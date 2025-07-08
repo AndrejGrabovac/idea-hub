@@ -1,5 +1,4 @@
 ﻿using IdeaHub.Enums;
-using IdeaHub.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,10 +23,6 @@ namespace IdeaHub.Models
             Id = Guid.NewGuid();
             CreatedAt = DateTime.Now;
             Status = SuggestionStatus.UnderReview; // Default status is UnderReview
-        }
-        public string StatusName()
-        {
-            return Status.GetDescription();
         }
     }
 }

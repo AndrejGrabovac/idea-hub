@@ -1,4 +1,10 @@
-﻿using System;
+﻿using IdeaHub.DTOs.Product;
+using IdeaHub.DTOs.Suggestion;
+using IdeaHub.DTOs.User;
+using IdeaHub.Enums;
+using IdeaHub.Presenters.Base;
+using IdeaHub.View.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,33 +13,54 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using IdeaHub.DTOs.Suggestion;
-using IdeaHub.Enums;
-using IdeaHub.View.Interfaces;
 
 namespace IdeaHub.Forms
 {
-    public partial class SuggestionsForm : Form, IMainView
+    public partial class SuggestionsForm : Form, ISuggestionsView
     {
-        private bool _isFirstLoad = true;
+        private readonly IServiceProvider _serviceProvider;
+
+        public DateTime? FilterStartDate => dtpStartDate.Checked ? (DateTime?)dtpStartDate.Value : null;
+        public DateTime? FilterEndDate => dtpEndDate.Checked ? (DateTime?)dtpEndDate.Value : null;
+        public Guid? FilterByUserId => (Guid?)cmbUserFilter.SelectedValue == Guid.Empty ? null : (Guid?)cmbUserFilter.SelectedValue;
+        public Guid? FilterByProductId => (Guid?)cmbProductFilter.SelectedValue == Guid.Empty ? null : (Guid?)cmbProductFilter.SelectedValue;
+        public SuggestionStatus? FilterByStatus => cmbStatusFilter.SelectedItem as SuggestionStatus?;
 
         public event EventHandler LoadSuggestions;
         public event EventHandler ChangeSuggestionStatusAttempted;
         public event EventHandler SuggestionSelected;
         public event EventHandler LogoutClicked;
+        public event EventHandler FilterClicked;
+        public event EventHandler ClearFilterClicked;
+        public event EventHandler LoggedOut;
 
-        public Form MainFormInstance => throw new NotImplementedException();
 
-
-        public SuggestionsForm()
+        public SuggestionsForm(IServiceProvider serviceProvider)
         {
             InitializeComponent();
+
+            _serviceProvider = serviceProvider;
+
+            var suggestionsPresenter = new SuggestionsPresenter(this, _serviceProvider);
+            suggestionsPresenter.LoggedOut += (s, e) => LoggedOut?.Invoke(this, EventArgs.Empty);
+
             this.DoubleBuffered = true;
             this.Load += MainForm_Load;
             this.dgvSuggestions.SelectionChanged += DgvSuggestions_SelectionChanged;
             this.btnUpdateStatus.Click += BtnUpdateStatus_Click;
             this.dgvSuggestions.CellClick += DgvSuggestions_CellClick;
-            this.btnLogout.Click += (sender, e) => LogoutClicked?.Invoke(this, EventArgs.Empty);
+            this.btnLogout.Click += (s, e) => LogoutClicked?.Invoke(this, EventArgs.Empty);
+
+            btnFilter.Click += (s, e) => FilterClicked?.Invoke(this, EventArgs.Empty);
+            btnClear.Click += (s, e) => ClearFilterClicked?.Invoke(this, EventArgs.Empty);
+
+            InitializeComboBoxes();
+        }
+        private void InitializeComboBoxes()
+        {
+            var statuses = new List<object> { "All Statuses" };
+            statuses.AddRange(Enum.GetValues(typeof(SuggestionStatus)).Cast<object>());
+            cmbStatusFilter.DataSource = statuses;
 
 
             cmbStatus.DataSource = Enum.GetValues(typeof(SuggestionStatus))
@@ -101,26 +128,17 @@ namespace IdeaHub.Forms
 
             var titleColumn = dgvSuggestions.Columns["Title"];
             titleColumn.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            dgvSuggestions.Columns["Title"].MinimumWidth = 150;
 
             var descriptionColumn = dgvSuggestions.Columns["Description"];
-            descriptionColumn.Width = 300;
+            descriptionColumn.FillWeight = 200;
+            dgvSuggestions.Columns["Description"].MinimumWidth = 200;
+
 
             dgvSuggestions.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
 
-            ResizeFormToGrid();
-        }
+            dgvSuggestions.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-        private void ResizeFormToGrid()
-        {
-            if (!_isFirstLoad) return;
-
-            int totalWidth = dgvSuggestions.Columns.GetColumnsWidth(DataGridViewElementStates.Visible);
-            totalWidth += dgvSuggestions.RowHeadersWidth;
-            totalWidth += 3;
-
-            this.ClientSize = new Size(totalWidth, this.ClientSize.Height);
-
-            _isFirstLoad = false;
         }
 
         public Guid SelectedSuggestionId
@@ -162,11 +180,38 @@ namespace IdeaHub.Forms
             }
         }
 
+        public List<UserViewDto> UserFilterDataSource 
+        {
+            set
+            {
+                var placeholder = new List<UserViewDto> { new UserViewDto { Id = Guid.Empty, Username = "All Users" } };
+                cmbUserFilter.DataSource = placeholder.Concat(value).ToList();
+                cmbUserFilter.DisplayMember = "Username";
+                cmbUserFilter.ValueMember = "Id";
+            }
+        }
+        public List<ProductViewDto> ProductFilterDataSource 
+        {
+            set
+            {
+                var placeholder = new List<ProductViewDto> { new ProductViewDto { Id = Guid.Empty, Name = "All Products" } };
+                cmbProductFilter.DataSource = placeholder.Concat(value).ToList();
+                cmbProductFilter.DisplayMember = "Name";
+                cmbProductFilter.ValueMember = "Id";
+            }
+        }
+
         public void SetStatusChangeControlsEnabled(bool enabled)
         {
             cmbStatus.Enabled = enabled;
             btnUpdateStatus.Enabled = enabled;
         }
+        public void SetStatusChangeControlsVisibility(bool visible)
+        {
+            cmbStatus.Visible = visible;
+            btnUpdateStatus.Visible = visible;
+        }
+
         public void ShowMessage(string message)
         {
             MessageBox.Show(message, "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -218,6 +263,32 @@ namespace IdeaHub.Forms
                 {
                     MessageBox.Show(suggestion.Description, "Full Description");
                 }
+            }
+        }
+
+        public void ClearFilters()
+        {
+            dtpStartDate.Checked = false;
+            dtpEndDate.Checked = false;
+            cmbUserFilter.SelectedIndex = 0;
+            cmbProductFilter.SelectedIndex = 0;
+            cmbStatusFilter.SelectedIndex = 0;
+        }
+
+        public void SetFilterControlsVisibility(bool visible)
+        {
+            var filterControls = new Control[]
+            {
+                lblFilterByDate, dtpStartDate, lblFromDate, dtpEndDate, lblToDate,
+                lblFilterByUser, cmbUserFilter,
+                lblFilterByProduct, cmbProductFilter,
+                lblFilterByStatus, cmbStatusFilter,
+                btnFilter, btnClear
+            };
+
+            foreach (var control in filterControls)
+            {
+                control.Visible = visible;
             }
         }
     }

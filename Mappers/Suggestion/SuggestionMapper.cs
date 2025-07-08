@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace IdeaHub.SuggestionMappers
 {
-    public class SuggestionMapper
+    public static class SuggestionMapper
     {
         public static Suggestion ToCreateSuggestionDto(CreateSuggestionDto dto) 
         {
