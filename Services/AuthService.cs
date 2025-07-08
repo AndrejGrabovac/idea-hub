@@ -16,6 +16,8 @@ namespace IdeaHub.Services
 {
     public class AuthService : IAuthService
     {
+        public event EventHandler LogoutCompleted;
+
         public bool Authenticate(LoginDto loginDto)
         {
             if (string.IsNullOrWhiteSpace(loginDto.Username) || string.IsNullOrWhiteSpace(loginDto.Password))
@@ -24,24 +26,27 @@ namespace IdeaHub.Services
             }
 
             User user = InMemoryDatabase.GetUserByUsername(loginDto.Username);
-
-            if (user == null)
+            
+            if (user == null || user.Password != loginDto.Password)
             {
                 return false;
             }
 
-            if (user.Password == loginDto.Password && user.IsActive)
-            {   
-                UserViewDto userViewDto = UserMapper.ToViewUserDto(user);
-                Helpers.ApplicationContext.CurrentUser = userViewDto;
-                return true;
+            if (!user.IsActive)
+            {
+                throw new UnauthorizedAccessException("User account is inactive. Please contact an administrator.");
             }
-            return false;
+
+            UserViewDto userViewDto = UserMapper.ToViewUserDto(user);
+            Helpers.UserSession.CurrentUser = userViewDto;
+            return true;
         }
 
         public void LogOut() 
         {
-            Helpers.ApplicationContext.CurrentUser = null;
+            Helpers.UserSession.CurrentUser = null;
+            LogoutCompleted?.Invoke(this, EventArgs.Empty);
+
         }
     }
 }

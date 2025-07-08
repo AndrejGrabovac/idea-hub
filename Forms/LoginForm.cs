@@ -1,4 +1,6 @@
-﻿using IdeaHub.View.Interfaces;
+﻿using IdeaHub.Forms;
+using IdeaHub.Presenters.Base;
+using IdeaHub.View.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,10 +19,14 @@ namespace IdeaHub
         public event EventHandler LoginSuccess;
         public Form LoginFormInstance => this;
 
+        private readonly IServiceProvider _serviceProvider;
 
-        public LoginForm()
+        public LoginForm(IServiceProvider serviceProvider)
         {
             InitializeComponent();
+            _serviceProvider = serviceProvider;
+
+            var loginPresenter = new LoginPresenter(this, _serviceProvider);
 
             this.btnLogin.Click += (sender, e) => LoginAttempted?.Invoke(sender, e);
         }
@@ -34,11 +40,6 @@ namespace IdeaHub
         {
             get => txtPassword.Text;
             set => txtPassword.Text = value;
-        }
-
-        private void LoginForm_Load(object sender, EventArgs e)
-        {
-
         }
 
         public void ShowMessage(string message)
@@ -55,8 +56,9 @@ namespace IdeaHub
             lblMessage.Visible = true;
         }
 
-        public void ClearFields()
+        public async void ClearFields()
         {
+            await Task.Delay(1);
             txtUsername.Clear();
             txtPassword.Clear();
             txtUsername.Focus();
@@ -64,12 +66,14 @@ namespace IdeaHub
 
         public void CloseView()
         {
+            this.DialogResult = DialogResult.OK;
             this.Close();
         }
 
         public void LoginSuccessful()
         {
             LoginSuccess?.Invoke(this, EventArgs.Empty);
+            this.Close();
         }
     }
 }

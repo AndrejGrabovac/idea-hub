@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace IdeaHub.Helpers
 {
-    public static class ApplicationContext
+    public static class UserSession
     {
         public static UserViewDto CurrentUser { get; internal set; }
         public static bool IsLoggedIn => CurrentUser != null;

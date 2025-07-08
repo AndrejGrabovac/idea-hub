@@ -16,43 +16,37 @@ namespace IdeaHub.Presenters.Base
     {
         private readonly ILoginView _loginView;
         private readonly IAuthService _authService;
-        private readonly IUserService _userService;
-        private readonly ISuggestionService _suggestionService;
 
-        public LoginPresenter(ILoginView loginView, IAuthService authService, IUserService userService, ISuggestionService suggestionService) 
+        public LoginPresenter(ILoginView loginView, IServiceProvider serviceProvider) 
         {
             _loginView = loginView ?? throw new ArgumentNullException(nameof(loginView));
-            _authService = authService ?? throw new ArgumentNullException(nameof(authService));
-            _userService = userService ?? throw new ArgumentNullException(nameof(userService));
-            _suggestionService = suggestionService ?? throw new ArgumentNullException(nameof(suggestionService));
+            _authService = (IAuthService)serviceProvider.GetService(typeof(IAuthService));
 
             _loginView.LoginAttempted += OnLoginAttempted;
         }
 
         public void OnLoginAttempted(object sender, EventArgs e) 
         {
-            string username = _loginView.Username;
-            string password = _loginView.Password;
-
-            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
-            {
-                _loginView.ShowError("Username and password cannot be empty.");
-                _loginView.ClearFields();
-                return;
-            }
-
-            var loginDto = new LoginDto 
-            { 
-                Username = username,
-                Password = password 
-            };
-
             try
             {
+                string username = _loginView.Username;
+                string password = _loginView.Password;
+
+                if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+                {
+                    _loginView.ShowError("Username or password cannot be empty.");
+                    return;
+                }
+
+                var loginDto = new LoginDto
+                {
+                    Username = username,
+                    Password = password
+                };
+
                 if (_authService.Authenticate(loginDto))
                 {
                     _loginView.LoginSuccessful();
-                    _loginView.CloseView();
                 }
                 else
                 {
@@ -60,10 +54,13 @@ namespace IdeaHub.Presenters.Base
                     _loginView.ClearFields();
                 }
             }
+            catch (UnauthorizedAccessException ex) 
+            {
+                _loginView.ShowError(ex.Message);
+            }
             catch (Exception ex)
             {
                 _loginView.ShowError($"An error occurred during login: {ex.Message}");
-                Console.WriteLine($"Login Error: {ex}");
             }
         }
     }

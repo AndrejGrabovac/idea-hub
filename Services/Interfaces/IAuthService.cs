@@ -9,6 +9,8 @@ namespace IdeaHub.Services.Interfaces
 {
     public interface IAuthService
     {
+        event EventHandler LogoutCompleted;
+
         bool Authenticate(LoginDto loginDto);
         void LogOut();
     }
