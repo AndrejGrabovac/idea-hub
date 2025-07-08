@@ -95,6 +95,12 @@
     <Compile Include="Forms\Admin\EditProductForm.Designer.cs">
       <DependentUpon>EditProductForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Admin\UpdateUserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Admin\UpdateUserForm.Designer.cs">
+      <DependentUpon>UpdateUserForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Admin\UsersForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -142,6 +148,7 @@
     <Compile Include="Presenters\Admin\CreateProductPresenter.cs" />
     <Compile Include="Presenters\Admin\CreateUserPresenter.cs" />
     <Compile Include="Presenters\Admin\EditProductPresenter.cs" />
+    <Compile Include="Presenters\Admin\UpdateUserPresenter.cs" />
     <Compile Include="Presenters\Base\CreateSuggestionPresenter.cs" />
     <Compile Include="Presenters\Base\DashboardPresenter.cs" />
     <Compile Include="Presenters\Base\LoginPresenter.cs" />
@@ -166,6 +173,7 @@
     <Compile Include="View\Interfaces\ILoginView.cs" />
     <Compile Include="View\Interfaces\ISuggestionsView.cs" />
     <Compile Include="View\Interfaces\IProductsView.cs" />
+    <Compile Include="View\Interfaces\IUpdateUserView.cs" />
     <Compile Include="View\Interfaces\IUsersView.cs" />
     <EmbeddedResource Include="Forms\Admin\CreateProductForm.resx">
       <DependentUpon>CreateProductForm.cs</DependentUpon>
@@ -175,6 +183,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Admin\EditProductForm.resx">
       <DependentUpon>EditProductForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Admin\UpdateUserForm.resx">
+      <DependentUpon>UpdateUserForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Admin\UsersForm.resx">
       <DependentUpon>UsersForm.cs</DependentUpon>
@@ -220,6 +231,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Documentation\Documetation.txt" />
     <Content Include="Documentation\TaskOverview.txt" />
     <Content Include="ProjectOverview.txt" />
   </ItemGroup>
