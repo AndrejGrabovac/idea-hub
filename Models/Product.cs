@@ -20,10 +20,5 @@ namespace IdeaHub.Models
             CreatedAt = DateTime.Now;
             IsActive = true;
         }
-
-        public override string ToString()
-        {
-            return Name;
-        }
     }
 }
