@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace IdeaHub.Data
 {
-    public class DataSeeder
+    public static class DataSeeder
     {
         public static void Seed() 
         {
@@ -60,7 +60,7 @@ namespace IdeaHub.Data
                 LastName = "Adams",
                 Email = "susan.adams@ideahub.com",
                 Role = UserRole.User,
-                IsActive = true
+                IsActive = false
             };
             InMemoryDatabase.AddUser(regularUser3);
 
@@ -96,7 +96,7 @@ namespace IdeaHub.Data
             {
                 Name = "Internal CRM System",
                 Description = "Customer Relationship Management tool for sales and support.",
-                IsActive = true
+                IsActive = false
             };
             InMemoryDatabase.AddProduct(productCRM);
 
