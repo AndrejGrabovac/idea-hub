@@ -34,6 +34,6 @@ namespace IdeaHub.DTOs.User
         [Required(ErrorMessage = "Role is required.")]
         public UserRole Role { get; set; }
 
-        public bool IsActive { get; set; } = true;
+        public bool IsActive { get; set; }
     }
 }
