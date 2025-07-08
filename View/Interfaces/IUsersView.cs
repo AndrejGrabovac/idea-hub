@@ -12,10 +12,14 @@ namespace IdeaHub.View.Interfaces
         event EventHandler LoadUsers;
         event EventHandler LogoutClicked;
         event EventHandler NewUserClicked;
+        event EventHandler EditUserClicked;
 
         List<UserViewDto> UsersDataSource { get; set; }
+        string SelectedUserName { set; }
 
         void ShowCreateUserForm();
+        void ShowUpdateUserForm(Guid userId);
+        Guid GetSelectedUserId();
         void CloseView();
 
     }

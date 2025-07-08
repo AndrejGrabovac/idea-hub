@@ -51,7 +51,15 @@ namespace IdeaHub.Services
                 }
             }
 
-            UserMapper.ToUpdateUserDto(updateUserDto);
+
+            existingUser.Username = updateUserDto.Username;
+            existingUser.Password = updateUserDto.Password;
+            existingUser.FirstName = updateUserDto.FirstName;
+            existingUser.LastName = updateUserDto.LastName;
+            existingUser.Email = updateUserDto.Email;
+            existingUser.Role = updateUserDto.Role;
+            existingUser.IsActive = updateUserDto.IsActive;
+
             InMemoryDatabase.UpdateUser(existingUser);
             return UserMapper.ToViewUserDto(existingUser);
         }

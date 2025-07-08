@@ -10,7 +10,7 @@ namespace IdeaHub.DTOs.User
 {
     public class UpdateUserDto
     {
-        [Required(ErrorMessage = "User ID is required for update.")]
+        [Required(ErrorMessage = "User ID is required for update.")] 
         public Guid Id { get; set; }
 
         [StringLength(50, MinimumLength = 3, ErrorMessage = "Username must be between 3 and 50 characters.")]

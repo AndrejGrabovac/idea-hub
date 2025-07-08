@@ -74,6 +74,7 @@
             // 
             this.txtSelectedUser.Location = new System.Drawing.Point(12, 5);
             this.txtSelectedUser.Name = "txtSelectedUser";
+            this.txtSelectedUser.ReadOnly = true;
             this.txtSelectedUser.Size = new System.Drawing.Size(140, 20);
             this.txtSelectedUser.TabIndex = 2;
             // 

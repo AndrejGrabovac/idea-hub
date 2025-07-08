@@ -26,6 +26,16 @@ namespace IdeaHub.Presenters.Admin
             _usersView.LoadUsers += OnLoadUsers;
             _usersView.LogoutClicked += OnLogoutClicked;
             _usersView.NewUserClicked += OnNewUserClicked;
+            _usersView.EditUserClicked += OnEditUserClicked;
+        }
+
+        private void OnEditUserClicked(object sender, EventArgs e)
+        {
+            var userId = _usersView.GetSelectedUserId();
+            if (userId != Guid.Empty)
+            {
+                _usersView.ShowUpdateUserForm(userId);
+            }
         }
 
         private void OnNewUserClicked(object sender, EventArgs e)

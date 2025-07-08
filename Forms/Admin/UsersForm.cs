@@ -22,6 +22,7 @@ namespace IdeaHub.Forms.Admin
         public event EventHandler LoadUsers;
         public event EventHandler LogoutClicked;
         public event EventHandler NewUserClicked;
+        public event EventHandler EditUserClicked;
 
         public UsersForm(IServiceProvider serviceProvider)
         {
@@ -30,10 +31,13 @@ namespace IdeaHub.Forms.Admin
 
             var usersPresenter = new UsersPresenter(this, _serviceProvider);
 
+            this.btnEditUser.Click += (sender, e) => EditUserClicked?.Invoke(this, EventArgs.Empty);
             this.btnNewUser.Click += (sender, e) => NewUserClicked?.Invoke(this, EventArgs.Empty);
             this.Load += (sender, e) => LoadUsers?.Invoke(this, EventArgs.Empty);
             this.btnLogout.Click += (sender, e) => LogoutClicked?.Invoke(this, EventArgs.Empty);
+            this.dgvUsers.SelectionChanged += DgvUsers_SelectionChanged;
         }
+
 
         public List<UserViewDto> UsersDataSource 
         {
@@ -50,6 +54,11 @@ namespace IdeaHub.Forms.Admin
                 }
             }
 
+        }
+
+        public string SelectedUserName 
+        {
+            set => txtSelectedUser.Text = value;
         }
 
         private void ConfigureGridViewColumns()
@@ -79,10 +88,42 @@ namespace IdeaHub.Forms.Admin
             var createUserForm = new CreateUserForm(_serviceProvider);
             createUserForm.ShowDialog();
         }
+        public void ShowUpdateUserForm(Guid userId)
+        {
+            var updateUserForm = new UpdateUserForm(_serviceProvider, userId);
+            updateUserForm.UserUpdated += (s, e) => LoadUsers?.Invoke(this, EventArgs.Empty);
+            updateUserForm.ShowDialog();
+        }
+
+
+        private void DgvUsers_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgvUsers.SelectedRows.Count > 0)
+            {
+                var user = dgvUsers.SelectedRows[0].DataBoundItem as UserViewDto;
+                if (user != null)
+                {
+                    SelectedUserName = user.Username;
+                }
+            }
+        }
+
+        public Guid GetSelectedUserId()
+        {
+            if (dgvUsers.SelectedRows.Count > 0)
+            {
+                var selectedRow = dgvUsers.SelectedRows[0];
+                var user = selectedRow.DataBoundItem as UserViewDto;
+                if (user != null)
+                {
+                    return user.Id;
+                }
+            }
+            return Guid.Empty;
+        }
         public void CloseView()
         {
             this.Close();
         }
-
     }
 }
