@@ -33,9 +33,24 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=9.0.0.6, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.9.0.6\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=9.0.0.6, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Extensions.DependencyInjection.9.0.6\lib\net462\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=9.0.0.6, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Extensions.DependencyInjection.Abstractions.9.0.6\lib\net462\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -54,6 +69,7 @@
     <Compile Include="DTOs\Product\ProductViewDto.cs" />
     <Compile Include="DTOs\Product\UpdateProductDto.cs" />
     <Compile Include="DTOs\Suggestion\CreateSuggestionDto.cs" />
+    <Compile Include="DTOs\Suggestion\SuggestionFilterDto.cs" />
     <Compile Include="DTOs\Suggestion\SuggestionViewDto.cs" />
     <Compile Include="DTOs\Suggestion\UpdateSuggestionStatusDto.cs" />
     <Compile Include="DTOs\User\CreateUserDto.cs" />
@@ -61,12 +77,53 @@
     <Compile Include="DTOs\User\UserViewDto.cs" />
     <Compile Include="Enums\SuggestionStatus.cs" />
     <Compile Include="Enums\UserRole.cs" />
-    <Compile Include="Extensions\EnumExtensions.cs" />
+    <Compile Include="Forms\Admin\CreateProductForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Admin\CreateProductForm.Designer.cs">
+      <DependentUpon>CreateProductForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Admin\CreateUserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Admin\CreateUserForm.Designer.cs">
+      <DependentUpon>CreateUserForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Admin\EditProductForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Admin\EditProductForm.Designer.cs">
+      <DependentUpon>EditProductForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Admin\UsersForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Admin\UsersForm.Designer.cs">
+      <DependentUpon>UsersForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\CreateSuggestionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\CreateSuggestionForm.Designer.cs">
+      <DependentUpon>CreateSuggestionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DashboardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DashboardForm.Designer.cs">
+      <DependentUpon>DashboardForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ProductsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ProductsForm.Designer.cs">
+      <DependentUpon>ProductsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\SuggestionsForm.cs">
       <SubType>Form</SubType>
@@ -74,15 +131,23 @@
     <Compile Include="Forms\SuggestionsForm.Designer.cs">
       <DependentUpon>SuggestionsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\ApplicationContext.cs" />
+    <Compile Include="Helpers\AppContext.cs" />
+    <Compile Include="Helpers\UserSession.cs" />
     <Compile Include="Mappers\Product\ProductMapper.cs" />
     <Compile Include="Mappers\Suggestion\SuggestionMapper.cs" />
     <Compile Include="Mappers\User\UserMapper.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\Suggestion.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Presenters\Admin\CreateProductPresenter.cs" />
+    <Compile Include="Presenters\Admin\CreateUserPresenter.cs" />
+    <Compile Include="Presenters\Admin\EditProductPresenter.cs" />
+    <Compile Include="Presenters\Base\CreateSuggestionPresenter.cs" />
+    <Compile Include="Presenters\Base\DashboardPresenter.cs" />
     <Compile Include="Presenters\Base\LoginPresenter.cs" />
+    <Compile Include="Presenters\Base\ProductsPresenter.cs" />
     <Compile Include="Presenters\Base\SuggestionsPresenter.cs" />
+    <Compile Include="Presenters\Admin\UsersPresenter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AuthService.cs" />
@@ -93,10 +158,38 @@
     <Compile Include="Services\ProductService.cs" />
     <Compile Include="Services\SuggestionService.cs" />
     <Compile Include="Services\UserService.cs" />
+    <Compile Include="View\Interfaces\ICreateProductView.cs" />
+    <Compile Include="View\Interfaces\ICreateSuggestionView.cs" />
+    <Compile Include="View\Interfaces\ICreateUserView.cs" />
+    <Compile Include="View\Interfaces\IDashboardView.cs" />
+    <Compile Include="View\Interfaces\IEditProductView.cs" />
     <Compile Include="View\Interfaces\ILoginView.cs" />
-    <Compile Include="View\Interfaces\IMainView.cs" />
+    <Compile Include="View\Interfaces\ISuggestionsView.cs" />
+    <Compile Include="View\Interfaces\IProductsView.cs" />
+    <Compile Include="View\Interfaces\IUsersView.cs" />
+    <EmbeddedResource Include="Forms\Admin\CreateProductForm.resx">
+      <DependentUpon>CreateProductForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Admin\CreateUserForm.resx">
+      <DependentUpon>CreateUserForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Admin\EditProductForm.resx">
+      <DependentUpon>EditProductForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Admin\UsersForm.resx">
+      <DependentUpon>UsersForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CreateSuggestionForm.resx">
+      <DependentUpon>CreateSuggestionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DashboardForm.resx">
+      <DependentUpon>DashboardForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ProductsForm.resx">
+      <DependentUpon>ProductsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\SuggestionsForm.resx">
       <DependentUpon>SuggestionsForm.cs</DependentUpon>
@@ -110,6 +203,8 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include=".github\copilot-instructions.md" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -129,9 +224,8 @@
     <Content Include="ProjectOverview.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Forms\Admin\" />
+    <Folder Include="Extensions\" />
     <Folder Include="Forms\User\" />
-    <Folder Include="Presenters\Admin\" />
     <Folder Include="Presenters\User\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
