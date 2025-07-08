@@ -1,6 +1,5 @@
 ﻿using IdeaHub.DTOs.Suggestion;
 using IdeaHub.DTOs.User;
-using IdeaHub.Extensions;
 using IdeaHub.Models;
 using System;
 using System.Collections.Generic;

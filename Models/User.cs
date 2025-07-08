@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IdeaHub.Enums;
-using IdeaHub.Extensions;
 
 namespace IdeaHub.Models
 {
@@ -24,23 +23,12 @@ namespace IdeaHub.Models
         {   
             Id = Guid.NewGuid();
             CreatedAt = DateTime.Now;
-            IsActive = true;
             Role = UserRole.User; //Default role is User
         }
 
         public string FullName()
         {
             return $"{FirstName} {LastName}";
-        }
-
-        public bool IsAdmin()
-        {
-            return Role == UserRole.Admin;
-        }
-
-        public string RoleName()
-        {
-            return Role.GetDescription();
         }
     }
 }

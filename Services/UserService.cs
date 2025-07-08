@@ -64,7 +64,7 @@ namespace IdeaHub.Services
                 return false;
             }
 
-            if (userToDelete.Id == Helpers.ApplicationContext.CurrentUser?.Id)
+            if (userToDelete.Id == Helpers.UserSession.CurrentUser?.Id)
             {
                 throw new InvalidOperationException("Cannot delete the currently logged-in user.");
             }
@@ -74,12 +74,12 @@ namespace IdeaHub.Services
 
         public UserRole? GetCurrentUserRole()
         {
-            return Helpers.ApplicationContext.CurrentUser?.Role;
+            return Helpers.UserSession.CurrentUser?.Role;
         }
 
         public UserViewDto GetCurrentUser()
         {
-            return ApplicationContext.CurrentUser;
+            return UserSession.CurrentUser;
         }
     }
 }
