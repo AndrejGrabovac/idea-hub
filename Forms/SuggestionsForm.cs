@@ -175,8 +175,7 @@ namespace IdeaHub.Forms
                 {
                     return selectedStatus;
                 }
-
-                throw new InvalidOperationException("No valid status selected in ComboBox.");
+                return default;
             }
         }
 

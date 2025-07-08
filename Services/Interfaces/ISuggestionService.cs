@@ -15,7 +15,6 @@ namespace IdeaHub.Services.Interfaces
         SuggestionViewDto UpdateSuggestionStatus(UpdateSuggestionStatusDto updateStatusDto);
         List<SuggestionViewDto> GetSuggestionsByUserId(Guid userId);
         List<SuggestionViewDto> GetFilteredSuggestions(SuggestionFilterDto filterDto);
-
         bool DeleteSuggestion(Guid id);
     }
 }
