@@ -83,5 +83,34 @@ namespace IdeaHub.Services
                                    .Select(s => SuggestionMapper.ToViewSuggestionDto(s))
                                    .ToList();
         }
+
+        public List<SuggestionViewDto> GetFilteredSuggestions(SuggestionFilterDto filterDto)
+        {
+            var query = InMemoryDatabase.Suggestions.AsQueryable();
+
+            if (filterDto.StartDate.HasValue)
+            {
+                query = query.Where(s => s.CreatedAt.Date >= filterDto.StartDate.Value.Date);
+            }
+            if (filterDto.EndDate.HasValue)
+            {
+                query = query.Where(s => s.CreatedAt.Date <= filterDto.EndDate.Value.Date);
+            }
+            if (filterDto.UserId.HasValue)
+            {
+                query = query.Where(s => s.UserId == filterDto.UserId.Value);
+            }
+            if (filterDto.ProductId.HasValue)
+            {
+                query = query.Where(s => s.ProductId == filterDto.ProductId.Value);
+            }
+            if (filterDto.Status.HasValue)
+            {
+                query = query.Where(s => s.Status == filterDto.Status.Value);
+            }
+
+            return 
+                query.Select(s => SuggestionMapper.ToViewSuggestionDto(s)).ToList();
+        }
     }
 }
