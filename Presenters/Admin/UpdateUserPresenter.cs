@@ -71,7 +71,7 @@ namespace IdeaHub.Presenters.Admin
 
         private void OnCancel(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            _updateUserView.CloseView();
         }
 
         private bool ValidateUserInput(UpdateUserDto user)
