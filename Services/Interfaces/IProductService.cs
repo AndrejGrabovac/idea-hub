@@ -10,10 +10,10 @@ namespace IdeaHub.Services.Interfaces
     public interface IProductService
     {
         List<ProductViewDto> GetAllProducts();
+        List<ProductViewDto> GetActiveProducts();
         ProductViewDto GetProductById(Guid id);
         ProductViewDto CreateProduct(CreateProductDto createProductDto);
         ProductViewDto UpdateProduct(UpdateProductDto updateProductDto);
         bool DeleteProduct(Guid id);
-
     }
 }

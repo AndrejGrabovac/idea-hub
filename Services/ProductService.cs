@@ -52,7 +52,10 @@ namespace IdeaHub.Services
                 }
             }
 
-            ProductMapper.ToUpdateProductDto(updateProductDto);
+            existingProduct.Name = updateProductDto.Name;
+            existingProduct.Description = updateProductDto.Description;
+            existingProduct.IsActive = updateProductDto.IsActive;
+
             InMemoryDatabase.UpdateProduct(existingProduct);
             return ProductMapper.ToViewProductDto(existingProduct);
         }
@@ -71,6 +74,12 @@ namespace IdeaHub.Services
             }
             InMemoryDatabase.DeleteProduct(id);
             return true;
+        }
+
+        public List<ProductViewDto> GetActiveProducts()
+        {
+            var activeProducts = InMemoryDatabase.Products.Where(p => p.IsActive).ToList();
+            return activeProducts.Select(p => ProductMapper.ToViewProductDto(p)).ToList();
         }
     }
 }

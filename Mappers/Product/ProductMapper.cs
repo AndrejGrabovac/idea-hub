@@ -8,15 +8,14 @@ using System.Threading.Tasks;
 
 namespace IdeaHub.ProductMappers
 {
-    public class ProductMapper
+    public static class ProductMapper
     {
         public static Product ToCreateProductDto(CreateProductDto dto) 
         {
             return new Product
             {
                 Name = dto.Name,
-                Description = dto.Description,
-                IsActive = dto.IsActive,
+                Description = dto.Description
             };
         }
 
