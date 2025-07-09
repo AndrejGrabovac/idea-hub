@@ -17,7 +17,6 @@ namespace IdeaHub
     {
         public event EventHandler LoginAttempted;
         public event EventHandler LoginSuccess;
-        public Form LoginFormInstance => this;
 
         private readonly IServiceProvider _serviceProvider;
 

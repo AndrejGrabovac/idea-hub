@@ -20,7 +20,5 @@ namespace IdeaHub.View.Interfaces
 
         event EventHandler LoginAttempted;
         event EventHandler LoginSuccess;
-        Form LoginFormInstance { get; }
-
     }
 }
