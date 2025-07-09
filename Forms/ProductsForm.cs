@@ -35,17 +35,8 @@ namespace IdeaHub.Forms
 
 
             this.Load += (s, e) => LoadProducts?.Invoke(this, EventArgs.Empty);
-            this.dgvProducts.CellDoubleClick += (s, e) => 
-            {
-                if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
-                {
-                    var product = dgvProducts.Rows[e.RowIndex].DataBoundItem as ProductViewDto;
-                    if (product != null)
-                    {
-                        CreateSuggestionForProductClicked?.Invoke(this, product.Id);
-                    }
-                }
-            };
+
+            this.dgvProducts.CellDoubleClick += DgvProducts_CellDoubleClick;
             this.dgvProducts.CellClick += DgvProducts_CellClick;
             this.dgvProducts.SelectionChanged += DgvProducts_SelectionChanged;
 
@@ -56,6 +47,19 @@ namespace IdeaHub.Forms
             this.btnLogout.Click += (s, e) => LogoutClicked?.Invoke(this, EventArgs.Empty);
 
         }
+
+        private void DgvProducts_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                var product = dgvProducts.Rows[e.RowIndex].DataBoundItem as ProductViewDto;
+                if (product != null)
+                {
+                    CreateSuggestionForProductClicked?.Invoke(this, product.Id);
+                }
+            }
+        }
+
         private void DgvProducts_SelectionChanged(object sender, EventArgs e)
         {
             if (dgvProducts.SelectedRows.Count > 0)
