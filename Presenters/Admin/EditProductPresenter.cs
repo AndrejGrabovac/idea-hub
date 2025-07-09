@@ -55,6 +55,12 @@ namespace IdeaHub.Presenters.Admin
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(_editProductView.ProductName))
+                {
+                    _editProductView.ShowError("Product Name is required.");
+                    return;
+                }
+
                 var updateDto = new UpdateProductDto
                 {
                     Id = _editProductView.ProductId,

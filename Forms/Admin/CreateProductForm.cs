@@ -38,7 +38,7 @@ namespace IdeaHub.Forms.Admin
 
         public void ShowMessage(string message)
         {
-            throw new NotImplementedException();
+            MessageBox.Show(message, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         public void OnProductCreated()
